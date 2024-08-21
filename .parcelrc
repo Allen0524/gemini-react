@@ -1,0 +1,5 @@
+{
+  "transformers": {
+    "*.css.ts": ["@vanilla-extract/parcel-transformer"]
+  }
+}

@@ -4,18 +4,25 @@
         "skipLibCheck": true,
         "target": "es2022",
         "allowJs": true,
+        "moduleResolution": "node",
         "resolveJsonModule": true,
         "moduleDetection": "force",
         "isolatedModules": true,
-        "verbatimModuleSyntax": true,
+        "verbatimModuleSyntax": false,
         "strict": true,
         "noUncheckedIndexedAccess": true,
         "noImplicitOverride": true,
-        "module": "preserve",
+        "module": "ESNext",
         "noEmit": true,
-        "jsx": "preserve",
-        "lib": ["es2022", "dom", "dom.iterable"]
+        "jsx": "react-jsx",
+        "allowImportingTsExtensions": true,
+        "sourceMap": true,
+        "lib": ["es2022", "dom", "dom.iterable"],
+        "baseUrl": "./",
+        "paths": {
+            "@ui/*": ["packages/ui/*"]
+        }
     },
-    "include": ["**/*.ts", "**/*.tsx"],
+    "include": ["**/*.ts", "**/*.tsx", "vite.config.ts"],
     "exclude": ["node_modules"]
 }

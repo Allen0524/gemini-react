@@ -11,7 +11,9 @@
     ],
     "license": "MIT",
     "peerDependencies": {
-        "react": "^17.0 || ^18.0"
+        "react": "^17.0 || ^18.0",
+        "@vanilla-extract/dynamic": "^2.1.1",
+        "@vanilla-extract/recipes": "^0.5.5"
     },
     "repository": {
         "type": "git",

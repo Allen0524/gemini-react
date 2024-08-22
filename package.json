@@ -26,6 +26,7 @@
         "@babel/preset-react": "^7.24.7",
         "@babel/preset-typescript": "^7.24.7",
         "@chromatic-com/storybook": "^1.6.1",
+        "@parcel/config-default": "^2.12.0",
         "@parcel/packager-ts": "2.12.0",
         "@parcel/transformer-typescript-types": "2.12.0",
         "@storybook/addon-essentials": "^8.2.2",

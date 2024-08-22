@@ -20,7 +20,8 @@
         "lib": ["es2022", "dom", "dom.iterable"],
         "baseUrl": "./",
         "paths": {
-            "@ui/*": ["packages/ui/*"]
+            "@ui/*": ["packages/ui/*"],
+            "@shared/*": ["packages/shared/*"]
         }
     },
     "include": ["**/*.ts", "**/*.tsx", "vite.config.ts"],

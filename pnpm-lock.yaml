@@ -26,6 +26,9 @@ importers:
       '@chromatic-com/storybook':
         specifier: ^1.6.1
         version: 1.6.1(react@18.2.0)
+      '@parcel/config-default':
+        specifier: ^2.12.0
+        version: 2.12.0(@parcel/core@2.12.0)(typescript@5.4.5)
       '@parcel/packager-ts':
         specifier: 2.12.0
         version: 2.12.0(@parcel/core@2.12.0)
@@ -3438,6 +3441,8 @@ packages:
       '@parcel/types': 2.12.0(@parcel/core@2.12.0)(@swc/helpers@0.5.12)
       '@parcel/utils': 2.12.0
       nullthrows: 1.1.1
+    transitivePeerDependencies:
+      - '@swc/helpers'
     dev: true
 
   /@rollup/pluginutils@5.1.0:

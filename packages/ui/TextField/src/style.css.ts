@@ -1,6 +1,6 @@
 import { recipe } from "@vanilla-extract/recipes";
 import { style } from "@vanilla-extract/css";
-import { vars } from "../../styles/theme.css.ts";
+import { vars } from "../../../shared/styles";
 
 export const textFieldContainer = style({
     display: "flex",

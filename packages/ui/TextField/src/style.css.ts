@@ -14,8 +14,9 @@ export const textFieldLabel = style({
 
 export const textFieldRecipe = recipe({
     base: {
-        width: "320px",
-        height: "48px",
+        width: "100%",
+        height: "auto",
+        lineHeight: "1.5",
         boxSizing: "border-box",
         borderRadius: "8px",
         padding: "12px 16px",

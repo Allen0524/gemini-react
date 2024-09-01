@@ -4,9 +4,10 @@ import { DropdownContext, useDropdownContext } from "./context";
 
 interface DropdownProps {
     children: React.ReactNode;
+    onSelect?: (value: string) => void;
 }
 
-const Dropdown = ({ children }: DropdownProps) => {
+const Dropdown = ({ children, onSelect }: DropdownProps) => {
     const [isOpen, setIsOpen] = React.useState(false);
     const [selectedValue, setSelectedValue] = React.useState<string | null>(null);
     const dropdownRef = React.useRef<HTMLDivElement>(null);
@@ -14,8 +15,17 @@ const Dropdown = ({ children }: DropdownProps) => {
     const handleClose = React.useCallback(() => setIsOpen(false), []);
     useClickOutside(dropdownRef, handleClose, isOpen);
 
+    const handleSelect = (value: string) => {
+        setSelectedValue(value);
+        if (onSelect) {
+            onSelect(value);
+        }
+    };
+
     return (
-        <DropdownContext.Provider value={{ isOpen, setIsOpen, selectedValue, setSelectedValue }}>
+        <DropdownContext.Provider
+            value={{ isOpen, setIsOpen, selectedValue, setSelectedValue: handleSelect }}
+        >
             <div ref={dropdownRef} className={dropdownStyles.container}>
                 {children}
             </div>
@@ -41,7 +51,6 @@ const Trigger = ({ children }: TriggerProps) => {
 
     React.useEffect(() => {
         if (hasMounted.current && !isOpen) {
-            console.log("hello");
             triggerRef.current?.focus();
         } else {
             hasMounted.current = true;
@@ -142,7 +151,7 @@ const List = ({ children }: ListProps) => {
 interface OptionProps {
     children: React.ReactNode;
     value: string;
-    disabled: boolean;
+    disabled?: boolean;
     index?: number;
     focusedIndex?: number;
 }

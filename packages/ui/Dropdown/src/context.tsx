@@ -4,7 +4,7 @@ export interface DropdownContextType {
     isOpen: boolean;
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
     selectedValue: string | null;
-    setSelectedValue: React.Dispatch<React.SetStateAction<string | null>>;
+    setSelectedValue: (value: string) => void;
 }
 
 export const DropdownContext = createContext<DropdownContextType | undefined>(undefined);

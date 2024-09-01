@@ -66,7 +66,7 @@ export const WithDisabledOptions: Story = {
 export const PreselectedOption: Story = {
     args: { children: "Select an option" },
     render: () => {
-        const [selectedValue, setSelectedValue] = React.useState("option 2");
+        const [selectedValue, setSelectedValue] = React.useState<string | null>("option 2");
 
         return (
             <Dropdown

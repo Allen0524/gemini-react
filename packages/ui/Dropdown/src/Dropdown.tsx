@@ -4,7 +4,7 @@ import { DropdownContext, useDropdownContext } from "./context";
 
 interface DropdownProps {
     children: React.ReactNode;
-    onSelect?: (value: string) => void;
+    onSelect?: (value: string | null) => void;
 }
 
 const Dropdown = ({ children, onSelect }: DropdownProps) => {
@@ -15,7 +15,7 @@ const Dropdown = ({ children, onSelect }: DropdownProps) => {
     const handleClose = React.useCallback(() => setIsOpen(false), []);
     useClickOutside(dropdownRef, handleClose, isOpen);
 
-    const handleSelect = (value: string) => {
+    const handleSelect = (value: string | null) => {
         setSelectedValue(value);
         if (onSelect) {
             onSelect(value);
@@ -106,7 +106,7 @@ const List = ({ children }: ListProps) => {
             let newIndex = focusedIndex;
             do {
                 newIndex = (newIndex + step + options.length) % options.length;
-            } while (options[newIndex].props.disabled && newIndex !== focusedIndex);
+            } while (options[newIndex]?.props.disabled && newIndex !== focusedIndex);
             setFocusedIndex(newIndex);
         };
 
@@ -122,8 +122,9 @@ const List = ({ children }: ListProps) => {
             case "Enter":
             case " ":
                 event.preventDefault();
-                if (!options[focusedIndex].props.disabled) {
-                    setSelectedValue(options[focusedIndex].props.value);
+                if (focusedIndex >= 0 && !options[focusedIndex]?.props.disabled) {
+                    const selectedOption = options[focusedIndex] as React.ReactElement<OptionProps>;
+                    setSelectedValue(selectedOption.props.value);
                     setIsOpen(false);
                 }
                 break;

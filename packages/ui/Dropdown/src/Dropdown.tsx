@@ -29,6 +29,8 @@ interface TriggerProps {
 
 const Trigger = ({ children }: TriggerProps) => {
     const { isOpen, setIsOpen, selectedValue } = useDropdownContext();
+    const triggerRef = React.useRef<HTMLButtonElement>(null);
+    const hasMounted = React.useRef(false);
 
     const handleKeyDown = (event: React.KeyboardEvent) => {
         if (event.key === "Enter" || event.key === " " || event.key === "ArrowDown") {
@@ -37,8 +39,18 @@ const Trigger = ({ children }: TriggerProps) => {
         }
     };
 
+    React.useEffect(() => {
+        if (hasMounted.current && !isOpen) {
+            console.log("hello");
+            triggerRef.current?.focus();
+        } else {
+            hasMounted.current = true;
+        }
+    }, [isOpen]);
+
     return (
         <button
+            ref={triggerRef}
             onClick={() => setIsOpen(!isOpen)}
             onKeyDown={handleKeyDown}
             aria-expanded={isOpen}

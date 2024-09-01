@@ -1,0 +1,21 @@
+{
+    "name": "@gemini-react/dropdown",
+    "version": "1.0.0",
+    "source": "src/index.ts",
+    "main": "dist/index.js",
+    "module": "dist/index.module.js",
+    "types": "dist/index.d.ts",
+    "files": [
+        "dist",
+        "README.md"
+    ],
+    "license": "MIT",
+    "peerDependencies": {
+        "react": "^17.0 || ^18.0",
+        "@vanilla-extract/recipes": "^0.5.5"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Allen0524/gemini-react.git"
+    }
+}

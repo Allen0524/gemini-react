@@ -61,6 +61,7 @@ const CarouselContent = ({ items, currentIndex }: CarouselContentProps) => {
                 <div
                     key={item.id}
                     className={carouselStyles.item}
+                    data-testid={`slide-${index + 1}`}
                     {...getCarouselItemProps(index, currentIndex)}
                 >
                     {item.content}

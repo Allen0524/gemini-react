@@ -1,10 +1,5 @@
-import { style, keyframes } from "@vanilla-extract/css";
+import { style } from "@vanilla-extract/css";
 import { vars } from "../../../shared/styles";
-
-const fadeIn = keyframes({
-    "0%": { opacity: 0 },
-    "100%": { opacity: 1 },
-});
 
 export const carouselStyles = {
     container: style({

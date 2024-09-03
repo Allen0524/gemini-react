@@ -7,8 +7,10 @@ interface UseCarouselProps {
 }
 
 const useCarousel = ({ itemCount, autoPlay = true, interval = 3000 }: UseCarouselProps) => {
+    const [isAutoPlayEnabled, setIsAutoPlayEnabled] = useState(autoPlay);
+    const [isHovered, setIsHovered] = useState(false);
+    const [isFocused, setIsFocused] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [isPlaying, setIsPlaying] = useState(false);
     const timerRef = useRef<NodeJS.Timeout | null>(null);
 
     const goToNext = useCallback(() => {
@@ -23,15 +25,15 @@ const useCarousel = ({ itemCount, autoPlay = true, interval = 3000 }: UseCarouse
         setCurrentIndex(index);
     }, []);
 
-    const pauseAutoPlay = useCallback(() => {
-        setIsPlaying(false);
+    const toggleAutoPlay = useCallback(() => {
+        setIsAutoPlayEnabled((prev) => !prev);
     }, []);
 
-    const resumeAutoPlay = useCallback(() => {
-        if (autoPlay) {
-            setIsPlaying(true);
-        }
-    }, [autoPlay]);
+    const handleFocus = useCallback(() => setIsFocused(true), []);
+    const handleBlur = useCallback(() => setIsFocused(false), []);
+
+    const handleMouseEnter = useCallback(() => setIsHovered(true), []);
+    const handleMouseLeave = useCallback(() => setIsHovered(false), []);
 
     const clearTimer = useCallback(() => {
         if (timerRef.current) {
@@ -41,23 +43,34 @@ const useCarousel = ({ itemCount, autoPlay = true, interval = 3000 }: UseCarouse
     }, []);
 
     useEffect(() => {
-        if (isPlaying) {
+        const shouldPlay = isAutoPlayEnabled && !isFocused && !isHovered;
+
+        if (shouldPlay) {
             timerRef.current = setInterval(goToNext, interval);
         } else if (timerRef.current) {
             clearTimer();
         }
 
         return clearTimer;
-    }, [isPlaying, goToNext, interval, clearTimer]);
+    }, [goToNext, interval, clearTimer, isAutoPlayEnabled, isFocused, isHovered]);
+
+    useEffect(() => {
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            setIsAutoPlayEnabled(false);
+        }
+    }, []);
 
     return {
         currentIndex,
         goToNext,
         goToPrevious,
         goToIndex,
-        pauseAutoPlay,
-        resumeAutoPlay,
-        isPlaying,
+        isAutoPlayEnabled,
+        toggleAutoPlay,
+        handleFocus,
+        handleBlur,
+        handleMouseEnter,
+        handleMouseLeave,
     };
 };
 

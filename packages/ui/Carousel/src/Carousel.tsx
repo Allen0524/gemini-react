@@ -2,6 +2,8 @@ import * as React from "react";
 import { carouselStyles } from "./style.css";
 import { useCarousel } from "./hook";
 import {
+    getCarouselProps,
+    getCarouselContentProps,
     getCarouselControlProps,
     getCarouselItemProps,
     getCarouselIndicatorProps,
@@ -16,44 +18,71 @@ interface CarouselProps {
     items: CarouselItem[];
     autoPlay?: boolean;
     interval?: number;
+    label?: string;
 }
 
-const Carousel = ({ items, autoPlay, interval }: CarouselProps) => {
+const Carousel = ({ items, autoPlay, interval, label = "example carousel" }: CarouselProps) => {
     const itemCount = items.length;
-    const { currentIndex, goToNext, goToPrevious, goToIndex, pauseAutoPlay, resumeAutoPlay } =
-        useCarousel({
-            itemCount,
-            autoPlay,
-            interval,
-        });
+    const {
+        currentIndex,
+        goToNext,
+        goToPrevious,
+        goToIndex,
+        isAutoPlayEnabled,
+        toggleAutoPlay,
+        handleFocus,
+        handleBlur,
+        handleMouseEnter,
+        handleMouseLeave,
+    } = useCarousel({
+        itemCount,
+        autoPlay,
+        interval,
+    });
 
     return (
-        <div
-            role="region"
-            onMouseEnter={pauseAutoPlay}
-            onMouseLeave={resumeAutoPlay}
-            aria-roledescription="acrousel"
-            className={carouselStyles.container}
-        >
-            <CarouselContent items={items} currentIndex={currentIndex} />
-            <CarouselControls onPrevious={goToPrevious} onNext={goToNext} />
-            <CarouselIndicators
-                itemCount={itemCount}
-                currentIndex={currentIndex}
-                onSelect={goToIndex}
-            />
-        </div>
+        <>
+            <button
+                onClick={toggleAutoPlay}
+                aria-label={isAutoPlayEnabled ? "Pause auto-play" : "Start auto-play"}
+            >
+                {isAutoPlayEnabled ? "Pause" : "Start"} Auto-play
+            </button>
+            <div
+                {...getCarouselProps(label)}
+                className={carouselStyles.container}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+            >
+                <CarouselContent
+                    items={items}
+                    currentIndex={currentIndex}
+                    isAutoPlayEnabled={isAutoPlayEnabled}
+                />
+                <CarouselControls onPrevious={goToPrevious} onNext={goToNext} />
+                <CarouselIndicators
+                    itemCount={itemCount}
+                    currentIndex={currentIndex}
+                    onSelect={goToIndex}
+                />
+            </div>
+        </>
     );
 };
 
 interface CarouselContentProps {
     items: CarouselItem[];
     currentIndex: number;
+    isAutoPlayEnabled: boolean;
 }
 
-const CarouselContent = ({ items, currentIndex }: CarouselContentProps) => {
+const CarouselContent = ({ items, currentIndex, isAutoPlayEnabled }: CarouselContentProps) => {
     return (
         <div
+            id="carousel-content"
+            {...getCarouselContentProps(isAutoPlayEnabled)}
             className={carouselStyles.content}
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
         >
@@ -62,7 +91,7 @@ const CarouselContent = ({ items, currentIndex }: CarouselContentProps) => {
                     key={item.id}
                     className={carouselStyles.item}
                     data-testid={`slide-${index + 1}`}
-                    {...getCarouselItemProps(index, currentIndex)}
+                    {...getCarouselItemProps(index, currentIndex, items.length)}
                 >
                     {item.content}
                 </div>
@@ -80,14 +109,14 @@ const CarouselControls = ({ onPrevious, onNext }: CarouselControlsProps) => {
     return (
         <div className={carouselStyles.controls}>
             <button
-                {...getCarouselControlProps("Previous slide")}
+                {...getCarouselControlProps("Previous slide", "carousel-content")}
                 className={carouselStyles.controlsButton}
                 onClick={onPrevious}
             >
                 &lt;
             </button>
             <button
-                {...getCarouselControlProps("Next slide")}
+                {...getCarouselControlProps("Next slide", "carousel-content")}
                 className={carouselStyles.controlsButton}
                 onClick={onNext}
             >

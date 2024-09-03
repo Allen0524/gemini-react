@@ -106,6 +106,7 @@ export const Default: Story = {
         items: defaultItems,
         autoPlay: false,
         interval: 3000,
+        label: "Default carousel",
     },
 };
 

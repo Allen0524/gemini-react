@@ -36,7 +36,18 @@ const items = [
     { id: 3, content: <img src="image3.png" alt="Slide 3" /> },
 ];
 
-const { currentIndex, goToNext, goToPrevious, goToIndex, isAutoPlayEnabled, toggleAutoPlay, handleFocus, handleBlur, handleMouseEnter, handleMouseLeave } = useCarousel({ itemCount: 3, autoPlay: true, interval: 5000 });
+const {
+    currentIndex,
+    goToNext,
+    goToPrevious,
+    goToIndex,
+    isAutoPlayEnabled,
+    toggleAutoPlay,
+    handleFocus,
+    handleBlur,
+    handleMouseEnter,
+    handleMouseLeave
+} = useCarousel({ itemCount: 3, autoPlay: true, interval: 5000 });
 
 <div>
     <button onClick={toggleAutoPlay}>{isAutoPlayEnabled ? 'Pause' : 'Play'}</button>

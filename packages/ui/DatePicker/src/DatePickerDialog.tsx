@@ -18,6 +18,7 @@ const DatePickerDialog = ({
 }: DatePickerDialogProps) => {
     const dialogRef = React.useRef<HTMLDivElement>(null);
     const [currentDate, setCurrentDate] = React.useState(selectedDate || new Date());
+    const monthYearId = React.useId();
 
     const handleKeyDown = (event: React.KeyboardEvent) => {
         if (event.key === "Escape") onClose();
@@ -40,6 +41,7 @@ const DatePickerDialog = ({
             ref={dialogRef}
             role="dialog"
             aria-modal="true"
+            aria-label="Choose Date"
             className={dialog}
             tabIndex={-1}
             onKeyDown={handleKeyDown}
@@ -51,7 +53,9 @@ const DatePickerDialog = ({
                 <button onClick={() => changeMonth(-1)} aria-label="Previous Month">
                     &lt;
                 </button>
-                <h2 aria-live="polite">{format(currentDate, "MMMM yyyy")}</h2>
+                <h2 id={monthYearId} aria-live="polite">
+                    {format(currentDate, "MMMM yyyy")}
+                </h2>
                 <button onClick={() => changeMonth(1)} aria-label="Next Month">
                     &gt;
                 </button>
@@ -64,6 +68,7 @@ const DatePickerDialog = ({
                 selectedDate={selectedDate}
                 onSelect={onSelect}
                 onMonthChange={handleMonthChange}
+                labelledBy={monthYearId}
             />
             <div className={dialogFooter}>
                 <button onClick={onClose}>Cancel</button>

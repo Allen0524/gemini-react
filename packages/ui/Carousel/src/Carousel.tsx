@@ -1,5 +1,6 @@
 import * as React from "react";
-import { carouselStyles, visualHidden } from "./style.css";
+import { srOnly } from "../../../shared/styles";
+import { carouselStyles } from "./style.css";
 import { useCarousel } from "./hook";
 import {
     getCarouselProps,
@@ -97,7 +98,7 @@ const CarouselContent = ({ items, currentIndex, isAutoPlayEnabled }: CarouselCon
                 ))}
             </div>
             <div
-                className={visualHidden}
+                className={srOnly}
                 aria-live={isAutoPlayEnabled ? "off" : "polite"}
                 aria-atomic="true"
             >

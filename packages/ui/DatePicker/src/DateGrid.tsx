@@ -19,9 +19,16 @@ interface DateGridProps {
     selectedDate: Date | null;
     onSelect: (date: Date) => void;
     onMonthChange: (date: Date) => void;
+    labelledBy: string;
 }
 
-const DateGrid = ({ currentDate, selectedDate, onSelect, onMonthChange }: DateGridProps) => {
+const DateGrid = ({
+    currentDate,
+    selectedDate,
+    onSelect,
+    onMonthChange,
+    labelledBy,
+}: DateGridProps) => {
     const gridRef = React.useRef<HTMLTableElement>(null);
     const monthStart = startOfMonth(currentDate);
     const monthEnd = endOfMonth(monthStart);
@@ -84,7 +91,7 @@ const DateGrid = ({ currentDate, selectedDate, onSelect, onMonthChange }: DateGr
     };
 
     return (
-        <table ref={gridRef} role="grid" className={dateGrid}>
+        <table ref={gridRef} role="grid" className={dateGrid} aria-labelledby={labelledBy}>
             <thead>
                 <tr>
                     {WEEKDAYS.map((day) => (
@@ -100,7 +107,6 @@ const DateGrid = ({ currentDate, selectedDate, onSelect, onMonthChange }: DateGr
                                 <td
                                     key={date.toString()}
                                     className={`${dateCell.base} ${isSameMonth(date, currentDate) ? dateCell.isCurrentMonth : dateCell.isOtherMonth} ${selectedDate && isSameDay(date, selectedDate) ? dateCell.isSelected : ""}`}
-                                    // aria-selected={selectedDate && isSameDay(date, selectedDate)}
                                     tabIndex={isSameDay(date, selectedDate || currentDate) ? 0 : -1}
                                     data-date={format(date, "yyyy-MM-dd")}
                                     onKeyDown={(event) => handleKeyDown(event, date)}

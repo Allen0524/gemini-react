@@ -2,6 +2,7 @@ import * as React from "react";
 import { format } from "date-fns";
 import { DatePickerDialog } from "./DatePickerDialog";
 import { chooseButton, dateInput, datePickerContainer } from "./style.css";
+import { srOnly } from "../../../shared/styles";
 
 interface DatePickerProps {
     value: Date | null;
@@ -12,6 +13,7 @@ interface DatePickerProps {
 const DatePicker = ({ value, onChange, dateFormat = "yyyy-MM-dd" }: DatePickerProps) => {
     const buttonRef = React.useRef<HTMLButtonElement>(null);
     const [isOpen, setIsOpen] = React.useState(false);
+    const descriptionId = React.useId();
 
     const handleButtonClick = () => setIsOpen(true);
 
@@ -35,14 +37,18 @@ const DatePicker = ({ value, onChange, dateFormat = "yyyy-MM-dd" }: DatePickerPr
                 value={value ? format(value, dateFormat) : ""}
                 onChange={handleInputChange}
                 className={dateInput}
+                aria-describedby={descriptionId}
             />
+            <span id={descriptionId} className={srOnly}>
+                Date format: {dateFormat}
+            </span>
             <button
                 type="button"
                 ref={buttonRef}
                 onClick={handleButtonClick}
                 className={chooseButton}
             >
-                choose Date
+                Choose Date
             </button>
             {isOpen && (
                 <DatePickerDialog

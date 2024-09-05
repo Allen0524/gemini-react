@@ -10,6 +10,7 @@ interface DatePickerProps {
 }
 
 const DatePicker = ({ value, onChange, dateFormat = "yyyy-MM-dd" }: DatePickerProps) => {
+    const buttonRef = React.useRef<HTMLButtonElement>(null);
     const [isOpen, setIsOpen] = React.useState(false);
 
     const handleButtonClick = () => setIsOpen(true);
@@ -17,6 +18,11 @@ const DatePicker = ({ value, onChange, dateFormat = "yyyy-MM-dd" }: DatePickerPr
     const handleDateSelect = (date: Date) => {
         onChange(date);
         setIsOpen(false);
+    };
+
+    const closeDialog = () => {
+        setIsOpen(false);
+        buttonRef.current?.focus();
     };
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {};
@@ -29,12 +35,17 @@ const DatePicker = ({ value, onChange, dateFormat = "yyyy-MM-dd" }: DatePickerPr
                 onChange={handleInputChange}
                 className={dateInput}
             />
-            <button onClick={handleButtonClick} className={chooseButton}>
+            <button
+                type="button"
+                ref={buttonRef}
+                onClick={handleButtonClick}
+                className={chooseButton}
+            >
                 choose Date
             </button>
             {isOpen && (
                 <DatePickerDialog
-                    onClose={() => setIsOpen(false)}
+                    onClose={closeDialog}
                     selectedDate={value}
                     onSelect={handleDateSelect}
                     dateFormat={dateFormat}

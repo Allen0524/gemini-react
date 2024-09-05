@@ -18,9 +18,10 @@ interface DateGridProps {
     currentDate: Date;
     selectedDate: Date | null;
     onSelect: (date: Date) => void;
+    onMonthChange: (date: Date) => void;
 }
 
-const DateGrid = ({ currentDate, selectedDate, onSelect }: DateGridProps) => {
+const DateGrid = ({ currentDate, selectedDate, onSelect, onMonthChange }: DateGridProps) => {
     const gridRef = React.useRef<HTMLTableElement>(null);
     const monthStart = startOfMonth(currentDate);
     const monthEnd = endOfMonth(monthStart);
@@ -29,7 +30,7 @@ const DateGrid = ({ currentDate, selectedDate, onSelect }: DateGridProps) => {
     const dateRange = eachDayOfInterval({ start: startDate, end: endDate });
 
     React.useEffect(() => {
-        const focusedDate = selectedDate || currentDate;
+        const focusedDate = currentDate || selectedDate;
         const focusedCell = gridRef.current?.querySelector(
             `[data-date="${format(focusedDate, "yyyy-MM-dd")}"]`
         ) as HTMLTableCellElement;
@@ -61,15 +62,25 @@ const DateGrid = ({ currentDate, selectedDate, onSelect }: DateGridProps) => {
                 break;
             case "PageDown":
                 break;
+            case "Enter":
+            case " ":
+                event.preventDefault();
+                onSelect(date);
+                return;
             default:
                 return;
         }
 
         event.preventDefault();
-        const newCell = gridRef.current?.querySelector(
-            `[data-date="${format(newDate, "yyyy-MM-dd")}"]`
-        ) as HTMLTableCellElement;
-        newCell?.focus();
+
+        if (!isSameMonth(newDate, currentDate)) {
+            onMonthChange(newDate);
+        } else {
+            const newCell = gridRef.current?.querySelector(
+                `[data-date="${format(newDate, "yyyy-MM-dd")}"]`
+            ) as HTMLTableCellElement;
+            newCell?.focus();
+        }
     };
 
     return (

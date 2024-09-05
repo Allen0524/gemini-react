@@ -31,6 +31,10 @@ const DatePickerDialog = ({
         setCurrentDate((prev) => addYears(prev, delta));
     };
 
+    const handleMonthChange = (date: Date) => {
+        setCurrentDate(date);
+    };
+
     return (
         <div
             ref={dialogRef}
@@ -55,7 +59,12 @@ const DatePickerDialog = ({
                     &gt;&gt;
                 </button>
             </div>
-            <DateGrid currentDate={currentDate} selectedDate={selectedDate} onSelect={onSelect} />
+            <DateGrid
+                currentDate={currentDate}
+                selectedDate={selectedDate}
+                onSelect={onSelect}
+                onMonthChange={handleMonthChange}
+            />
             <div className={dialogFooter}>
                 <button onClick={onClose}>Cancel</button>
                 <button onClick={() => onSelect(currentDate)}>OK</button>

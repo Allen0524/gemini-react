@@ -18,6 +18,7 @@ const DatePicker = ({ value, onChange, dateFormat = "yyyy-MM-dd" }: DatePickerPr
     const handleDateSelect = (date: Date) => {
         onChange(date);
         setIsOpen(false);
+        buttonRef.current?.focus();
     };
 
     const closeDialog = () => {
@@ -45,10 +46,10 @@ const DatePicker = ({ value, onChange, dateFormat = "yyyy-MM-dd" }: DatePickerPr
             </button>
             {isOpen && (
                 <DatePickerDialog
-                    onClose={closeDialog}
                     selectedDate={value}
-                    onSelect={handleDateSelect}
                     dateFormat={dateFormat}
+                    onSelect={handleDateSelect}
+                    onClose={closeDialog}
                 />
             )}
         </div>

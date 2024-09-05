@@ -1,9 +1,8 @@
 import * as React from "react";
-import { carouselStyles } from "./style.css";
+import { carouselStyles, visualHidden } from "./style.css";
 import { useCarousel } from "./hook";
 import {
     getCarouselProps,
-    getCarouselContentProps,
     getCarouselControlProps,
     getCarouselItemProps,
     getCarouselIndicatorProps,
@@ -80,23 +79,31 @@ interface CarouselContentProps {
 
 const CarouselContent = ({ items, currentIndex, isAutoPlayEnabled }: CarouselContentProps) => {
     return (
-        <div
-            id="carousel-content"
-            {...getCarouselContentProps(isAutoPlayEnabled)}
-            className={carouselStyles.content}
-            style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-        >
-            {items.map((item, index) => (
-                <div
-                    key={item.id}
-                    className={carouselStyles.item}
-                    data-testid={`slide-${index + 1}`}
-                    {...getCarouselItemProps(index, currentIndex, items.length)}
-                >
-                    {item.content}
-                </div>
-            ))}
-        </div>
+        <>
+            <div
+                id="carousel-content"
+                className={carouselStyles.content}
+                style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+            >
+                {items.map((item, index) => (
+                    <div
+                        key={item.id}
+                        className={carouselStyles.item}
+                        data-testid={`slide-${index + 1}`}
+                        {...getCarouselItemProps(index, currentIndex, items.length)}
+                    >
+                        {item.content}
+                    </div>
+                ))}
+            </div>
+            <div
+                className={visualHidden}
+                aria-live={isAutoPlayEnabled ? "off" : "polite"}
+                aria-atomic="true"
+            >
+                {`${currentIndex} of ${items.length}`}
+            </div>
+        </>
     );
 };
 

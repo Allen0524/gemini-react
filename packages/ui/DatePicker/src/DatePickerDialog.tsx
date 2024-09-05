@@ -16,7 +16,16 @@ const DatePickerDialog = ({
     onSelect,
     dateFormat,
 }: DatePickerDialogProps) => {
+    const dialogRef = React.useRef<HTMLDivElement>(null);
     const [currentDate, setCurrentDate] = React.useState(selectedDate || new Date());
+
+    React.useEffect(() => {
+        dialogRef.current?.focus();
+    }, []);
+
+    const handleKeyDown = (event: React.KeyboardEvent) => {
+        if (event.key === "Escape") onClose();
+    };
 
     const changeMonth = (delta: number) => {
         setCurrentDate((prev) => addMonths(prev, delta));
@@ -27,7 +36,14 @@ const DatePickerDialog = ({
     };
 
     return (
-        <div role="dialog" aria-modal="true" className={dialog}>
+        <div
+            ref={dialogRef}
+            role="dialog"
+            aria-modal="true"
+            className={dialog}
+            tabIndex={-1}
+            onKeyDown={handleKeyDown}
+        >
             <div className={dialogHeader}>
                 <button onClick={() => changeYear(-1)} aria-label="Previous Year">
                     &lt;&lt;
@@ -46,7 +62,7 @@ const DatePickerDialog = ({
             <DateGrid currentDate={currentDate} selectedDate={selectedDate} onSelect={onSelect} />
             <div className={dialogFooter}>
                 <button onClick={onClose}>Cancel</button>
-                <button>OK</button>
+                <button onClick={() => onSelect(currentDate)}>OK</button>
             </div>
         </div>
     );

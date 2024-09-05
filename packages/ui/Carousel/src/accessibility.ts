@@ -4,20 +4,11 @@ const getCarouselProps = (label: string) => ({
     "aria-label": label,
 });
 
-const getCarouselContentProps = (
-    isAutoPlayEnabled: boolean
-): {
-    "aria-live": "off" | "polite";
-} => ({
-    "aria-live": isAutoPlayEnabled ? "off" : "polite",
-});
-
 const getCarouselItemProps = (index: number, currentIndex: number, totalSlides: number) => ({
     "aria-hidden": index !== currentIndex,
     tabIndex: index === currentIndex ? 0 : -1,
     role: "group",
     "aria-roledescription": "slide",
-    "aria-label": `Slide ${index + 1} of ${totalSlides}`,
 });
 
 const getCarouselControlProps = (label: string, controlsId: string) => ({
@@ -37,7 +28,6 @@ const getCarouselIndicatorProps = (index: number, currentIndex: number) => ({
 
 export {
     getCarouselProps,
-    getCarouselContentProps,
     getCarouselItemProps,
     getCarouselControlProps,
     getCarouselIndicatorProps,

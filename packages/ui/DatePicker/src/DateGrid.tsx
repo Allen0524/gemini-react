@@ -10,7 +10,7 @@ import {
     isSameDay,
     addDays,
 } from "date-fns";
-import { dateCell, dateGrid } from "./style.css";
+import { dateCell, dateGrid, weekdayHeader } from "./style.css";
 
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -95,7 +95,9 @@ const DateGrid = ({
             <thead>
                 <tr>
                     {WEEKDAYS.map((day) => (
-                        <th key={day}>{day.slice(0, 2)}</th>
+                        <th key={day} className={weekdayHeader}>
+                            {day.slice(0, 2)}
+                        </th>
                     ))}
                 </tr>
             </thead>

@@ -1,7 +1,14 @@
 import * as React from "react";
 import { format, addMonths, addYears } from "date-fns";
 import { DateGrid } from "./DateGrid";
-import { dialog, dialogFooter, dialogHeader } from "./style.css";
+import {
+    dialog,
+    dialogFooter,
+    dialogHeader,
+    monthYearHeader,
+    navigationButton,
+    dialogFooterButton,
+} from "./style.css";
 
 interface DatePickerDialogProps {
     onClose: () => void;
@@ -47,19 +54,35 @@ const DatePickerDialog = ({
             onKeyDown={handleKeyDown}
         >
             <div className={dialogHeader}>
-                <button onClick={() => changeYear(-1)} aria-label="Previous Year">
+                <button
+                    onClick={() => changeYear(-1)}
+                    aria-label="Previous Year"
+                    className={navigationButton}
+                >
                     &lt;&lt;
                 </button>
-                <button onClick={() => changeMonth(-1)} aria-label="Previous Month">
+                <button
+                    onClick={() => changeMonth(-1)}
+                    aria-label="Previous Month"
+                    className={navigationButton}
+                >
                     &lt;
                 </button>
-                <h2 id={monthYearId} aria-live="polite">
+                <h2 id={monthYearId} aria-live="polite" className={monthYearHeader}>
                     {format(currentDate, "MMMM yyyy")}
                 </h2>
-                <button onClick={() => changeMonth(1)} aria-label="Next Month">
+                <button
+                    onClick={() => changeMonth(1)}
+                    aria-label="Next Month"
+                    className={navigationButton}
+                >
                     &gt;
                 </button>
-                <button onClick={() => changeYear(1)} aria-label="Next Year">
+                <button
+                    onClick={() => changeYear(1)}
+                    aria-label="Next Year"
+                    className={navigationButton}
+                >
                     &gt;&gt;
                 </button>
             </div>
@@ -71,8 +94,18 @@ const DatePickerDialog = ({
                 labelledBy={monthYearId}
             />
             <div className={dialogFooter}>
-                <button onClick={onClose}>Cancel</button>
-                <button onClick={() => onSelect(currentDate)}>OK</button>
+                <button
+                    onClick={onClose}
+                    className={`${dialogFooterButton.base} ${dialogFooterButton.cancel}`}
+                >
+                    Cancel
+                </button>
+                <button
+                    onClick={() => onSelect(currentDate)}
+                    className={`${dialogFooterButton.base} ${dialogFooterButton.ok}`}
+                >
+                    OK
+                </button>
             </div>
         </div>
     );

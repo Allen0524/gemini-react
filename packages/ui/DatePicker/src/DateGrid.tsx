@@ -27,6 +27,7 @@ const DateGrid = ({ currentDate, selectedDate, onSelect }: DateGridProps) => {
     const startDate = startOfWeek(monthStart);
     const endDate = endOfWeek(monthEnd);
     const dateRange = eachDayOfInterval({ start: startDate, end: endDate });
+
     React.useEffect(() => {
         const focusedDate = selectedDate || currentDate;
         const focusedCell = gridRef.current?.querySelector(
@@ -34,6 +35,7 @@ const DateGrid = ({ currentDate, selectedDate, onSelect }: DateGridProps) => {
         ) as HTMLTableCellElement;
         focusedCell?.focus();
     }, [selectedDate, currentDate]);
+
     const handleKeyDown = (event: React.KeyboardEvent<HTMLTableCellElement>, date: Date) => {
         let newDate = date;
         switch (event.key) {
@@ -69,6 +71,7 @@ const DateGrid = ({ currentDate, selectedDate, onSelect }: DateGridProps) => {
         ) as HTMLTableCellElement;
         newCell?.focus();
     };
+
     return (
         <table ref={gridRef} role="grid" className={dateGrid}>
             <thead>

@@ -19,10 +19,6 @@ const DatePickerDialog = ({
     const dialogRef = React.useRef<HTMLDivElement>(null);
     const [currentDate, setCurrentDate] = React.useState(selectedDate || new Date());
 
-    React.useEffect(() => {
-        dialogRef.current?.focus();
-    }, []);
-
     const handleKeyDown = (event: React.KeyboardEvent) => {
         if (event.key === "Escape") onClose();
     };

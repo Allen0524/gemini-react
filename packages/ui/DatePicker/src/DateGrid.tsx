@@ -105,16 +105,18 @@ const DateGrid = ({
                 {Array.from({ length: dateRange.length / 7 }).map((_, weekIndex) => (
                     <tr key={weekIndex}>
                         {dateRange.slice(weekIndex * 7, (weekIndex + 1) * 7).map((date) => {
+                            const isSelected = selectedDate && isSameDay(date, selectedDate);
                             return (
                                 <td
                                     key={date.toString()}
-                                    className={`${dateCell.base} ${isSameMonth(date, currentDate) ? dateCell.isCurrentMonth : dateCell.isOtherMonth} ${selectedDate && isSameDay(date, selectedDate) ? dateCell.isSelected : ""}`}
+                                    className={`${dateCell.base} ${isSameMonth(date, currentDate) ? dateCell.isCurrentMonth : dateCell.isOtherMonth} ${isSelected ? dateCell.isSelected : ""}`}
                                     tabIndex={isSameDay(date, selectedDate || currentDate) ? 0 : -1}
                                     data-date={format(date, "yyyy-MM-dd")}
                                     onKeyDown={(event) => handleKeyDown(event, date)}
                                     onClick={() => {
                                         onSelect(date);
                                     }}
+                                    aria-selected={isSelected ? true : undefined}
                                 >
                                     {format(date, "d")}
                                 </td>

@@ -9,6 +9,7 @@ import {
     navigationButton,
     dialogFooterButton,
 } from "./style.css";
+import useClickOutside from "../../../shared/hooks/useClickOutside";
 
 interface DatePickerDialogProps {
     onClose: () => void;
@@ -26,6 +27,7 @@ const DatePickerDialog = ({
     const dialogRef = React.useRef<HTMLDivElement>(null);
     const [currentDate, setCurrentDate] = React.useState(selectedDate || new Date());
     const monthYearId = React.useId();
+    useClickOutside(dialogRef, onClose);
 
     const handleKeyDown = (event: React.KeyboardEvent) => {
         if (event.key === "Escape") onClose();

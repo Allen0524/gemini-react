@@ -20,7 +20,7 @@ export const dropdownStyles = {
             backgroundColor: vars.colors.sky[100],
             borderColor: vars.colors.sky[500],
         },
-        ":focus": {
+        ":focus-visible": {
             outline: "none",
             boxShadow: `0 0 0 3px ${vars.colors.sky[200]}`,
             borderColor: vars.colors.sky[500],
@@ -50,7 +50,7 @@ export const dropdownStyles = {
         ":hover": {
             backgroundColor: vars.colors.sky[100],
         },
-        ":focus": {
+        ":focus-visible": {
             outline: "none",
             backgroundColor: vars.colors.sky[200],
         },

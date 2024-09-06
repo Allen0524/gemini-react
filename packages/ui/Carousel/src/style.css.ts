@@ -49,7 +49,7 @@ export const carouselStyles = {
         ":hover": {
             backgroundColor: vars.colors.slate[800],
         },
-        ":focus": {
+        ":focus-visible": {
             outline: `2px solid ${vars.colors.sky[400]}`,
             outlineOffset: "2px",
         },
@@ -76,7 +76,7 @@ export const carouselStyles = {
         ":hover": {
             backgroundColor: vars.colors.slate[600],
         },
-        ":focus": {
+        ":focus-visible": {
             outline: `2px solid ${vars.colors.sky[400]}`,
             outlineOffset: "2px",
         },

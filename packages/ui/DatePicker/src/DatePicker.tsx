@@ -38,6 +38,7 @@ const DatePicker = ({ value, onChange, dateFormat = "yyyy-MM-dd" }: DatePickerPr
                 onChange={handleInputChange}
                 className={dateInput}
                 aria-describedby={descriptionId}
+                readOnly
             />
             <span id={descriptionId} className={srOnly}>
                 Date format: {dateFormat}

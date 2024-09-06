@@ -28,7 +28,7 @@ export const chooseButton = style({
     ":hover": {
         backgroundColor: vars.colors.sky[700],
     },
-    ":focus": {
+    ":focus-visible": {
         outline: `2px solid ${vars.colors.sky[400]}`,
         outlineOffset: "2px",
     },
@@ -74,7 +74,7 @@ export const dateCell = styleVariants({
         width: "40px",
         lineHeight: "40px",
         borderRadius: `1px solid ${vars.colors.slate[400]}`,
-        ":focus": {
+        ":focus-visible": {
             outline: `2px solid ${vars.colors.sky[400]}`,
             outlineOffset: "2px",
         },
@@ -120,7 +120,7 @@ export const navigationButton = style({
     ":hover": {
         backgroundColor: vars.colors.slate[200],
     },
-    ":focus": {
+    ":focus-visible": {
         outline: `2px solid ${vars.colors.sky[400]}`,
         outlineOffset: "2px",
     },
@@ -135,7 +135,7 @@ export const dialogFooterButton = styleVariants({
         cursor: "pointer",
         marginLeft: "0.5rem",
         transition: "background-color 0.3s",
-        ":focus": {
+        ":focus-visible": {
             outline: `2px solid ${vars.colors.sky[400]}`,
             outlineOffset: "2px",
         },

@@ -23,7 +23,7 @@ export const textFieldRecipe = recipe({
         color: vars.colors.neutral[900],
         transition: "all 0.2s ease-in-out",
 
-        ":focus": {
+        ":focus-visible": {
             backgroundColor: vars.colors.neutral[100],
             border: `2px solid ${vars.colors.sky[700]}`,
         },

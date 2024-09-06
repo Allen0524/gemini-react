@@ -81,6 +81,12 @@ export const dateCell = styleVariants({
         ":hover": {
             backgroundColor: vars.colors.sky[200],
         },
+        selectors: {
+            "&[aria-disabled='true']:hover": {
+                backgroundColor: "transparent",
+                cursor: "default",
+            },
+        },
     },
     isCurrentMonth: {
         color: vars.colors.slate[900],

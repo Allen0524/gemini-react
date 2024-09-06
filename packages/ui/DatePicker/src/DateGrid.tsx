@@ -9,6 +9,9 @@ import {
     isSameMonth,
     isSameDay,
     addDays,
+    subDays,
+    addMonths,
+    subMonths,
 } from "date-fns";
 import { dateCell, dateGrid, weekdayHeader } from "./style.css";
 
@@ -42,13 +45,13 @@ const DateGrid = ({
         let newDate = date;
         switch (event.key) {
             case "ArrowUp":
-                newDate = addDays(date, -7);
+                newDate = subDays(date, 7);
                 break;
             case "ArrowDown":
                 newDate = addDays(date, 7);
                 break;
             case "ArrowLeft":
-                newDate = addDays(date, -1);
+                newDate = subDays(date, 1);
                 break;
             case "ArrowRight":
                 newDate = addDays(date, 1);
@@ -60,8 +63,10 @@ const DateGrid = ({
                 newDate = endOfWeek(date);
                 break;
             case "PageUp":
+                newDate = subMonths(date, 1);
                 break;
             case "PageDown":
+                newDate = addMonths(date, 1);
                 break;
             case "Enter":
             case " ":
@@ -96,20 +101,25 @@ const DateGrid = ({
                 {Array.from({ length: dateRange.length / 7 }).map((_, weekIndex) => (
                     <tr key={weekIndex}>
                         {dateRange.slice(weekIndex * 7, (weekIndex + 1) * 7).map((date) => {
-                            const isSelected = selectedDate && isSameDay(date, selectedDate);
+                            const isCurrentMonth = isSameMonth(date, currentDate);
+                            const isSelected =
+                                isCurrentMonth && selectedDate && isSameDay(date, selectedDate);
                             return (
                                 <td
                                     key={date.toString()}
-                                    className={`${dateCell.base} ${isSameMonth(date, currentDate) ? dateCell.isCurrentMonth : dateCell.isOtherMonth} ${isSelected ? dateCell.isSelected : ""}`}
+                                    className={`${dateCell.base} ${isCurrentMonth ? dateCell.isCurrentMonth : dateCell.isOtherMonth} ${isSelected ? dateCell.isSelected : ""}`}
                                     tabIndex={isSelected || isSameDay(date, currentDate) ? 0 : -1}
                                     data-date={format(date, "yyyy-MM-dd")}
                                     onKeyDown={(event) => handleKeyDown(event, date)}
                                     onClick={() => {
-                                        onSelect(date);
+                                        if (isCurrentMonth) {
+                                            onSelect(date);
+                                        }
                                     }}
                                     aria-selected={isSelected ? true : undefined}
+                                    aria-disabled={!isCurrentMonth}
                                 >
-                                    {format(date, "d")}
+                                    {isCurrentMonth ? format(date, "d") : ""}
                                 </td>
                             );
                         })}

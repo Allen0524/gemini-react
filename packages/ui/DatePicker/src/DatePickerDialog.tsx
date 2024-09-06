@@ -26,8 +26,21 @@ const DatePickerDialog = ({
 }: DatePickerDialogProps) => {
     const dialogRef = React.useRef<HTMLDivElement>(null);
     const [currentDate, setCurrentDate] = React.useState(selectedDate || new Date());
+    const isUpdateByNavigation = React.useRef(false);
     const monthYearId = React.useId();
     useClickOutside(dialogRef, onClose);
+
+    React.useEffect(() => {
+        if (isUpdateByNavigation.current) {
+            isUpdateByNavigation.current = false;
+            return;
+        }
+        const focusedDate = currentDate || selectedDate;
+        const focusedCell = dialogRef.current?.querySelector(
+            `[data-date="${format(focusedDate, "yyyy-MM-dd")}"]`
+        ) as HTMLTableCellElement;
+        focusedCell?.focus();
+    }, [selectedDate, currentDate]);
 
     const handleKeyDown = (event: React.KeyboardEvent) => {
         if (event.key === "Escape") onClose();
@@ -35,13 +48,19 @@ const DatePickerDialog = ({
 
     const changeMonth = (delta: number) => {
         setCurrentDate((prev) => addMonths(prev, delta));
+        isUpdateByNavigation.current = true;
     };
 
     const changeYear = (delta: number) => {
         setCurrentDate((prev) => addYears(prev, delta));
+        isUpdateByNavigation.current = true;
     };
 
     const handleMonthChange = (date: Date) => {
+        setCurrentDate(date);
+    };
+
+    const handleCurrentDateChange = (date: Date) => {
         setCurrentDate(date);
     };
 
@@ -93,6 +112,7 @@ const DatePickerDialog = ({
                 selectedDate={selectedDate}
                 onSelect={onSelect}
                 onMonthChange={handleMonthChange}
+                onCurrentDateChange={handleCurrentDateChange}
                 labelledBy={monthYearId}
             />
             <div className={dialogFooter}>

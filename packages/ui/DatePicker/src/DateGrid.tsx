@@ -15,19 +15,21 @@ import { dateCell, dateGrid, weekdayHeader } from "./style.css";
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 interface DateGridProps {
+    labelledBy: string;
     currentDate: Date;
     selectedDate: Date | null;
     onSelect: (date: Date) => void;
     onMonthChange: (date: Date) => void;
-    labelledBy: string;
+    onCurrentDateChange: (date: Date) => void;
 }
 
 const DateGrid = ({
     currentDate,
     selectedDate,
+    labelledBy,
     onSelect,
     onMonthChange,
-    labelledBy,
+    onCurrentDateChange,
 }: DateGridProps) => {
     const gridRef = React.useRef<HTMLTableElement>(null);
     const monthStart = startOfMonth(currentDate);
@@ -35,14 +37,6 @@ const DateGrid = ({
     const startDate = startOfWeek(monthStart);
     const endDate = endOfWeek(monthEnd);
     const dateRange = eachDayOfInterval({ start: startDate, end: endDate });
-
-    React.useEffect(() => {
-        const focusedDate = currentDate || selectedDate;
-        const focusedCell = gridRef.current?.querySelector(
-            `[data-date="${format(focusedDate, "yyyy-MM-dd")}"]`
-        ) as HTMLTableCellElement;
-        focusedCell?.focus();
-    }, [selectedDate, currentDate]);
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLTableCellElement>, date: Date) => {
         let newDate = date;
@@ -83,10 +77,7 @@ const DateGrid = ({
         if (!isSameMonth(newDate, currentDate)) {
             onMonthChange(newDate);
         } else {
-            const newCell = gridRef.current?.querySelector(
-                `[data-date="${format(newDate, "yyyy-MM-dd")}"]`
-            ) as HTMLTableCellElement;
-            newCell?.focus();
+            onCurrentDateChange(newDate);
         }
     };
 
@@ -110,7 +101,7 @@ const DateGrid = ({
                                 <td
                                     key={date.toString()}
                                     className={`${dateCell.base} ${isSameMonth(date, currentDate) ? dateCell.isCurrentMonth : dateCell.isOtherMonth} ${isSelected ? dateCell.isSelected : ""}`}
-                                    tabIndex={isSameDay(date, selectedDate || currentDate) ? 0 : -1}
+                                    tabIndex={isSelected || isSameDay(date, currentDate) ? 0 : -1}
                                     data-date={format(date, "yyyy-MM-dd")}
                                     onKeyDown={(event) => handleKeyDown(event, date)}
                                     onClick={() => {
